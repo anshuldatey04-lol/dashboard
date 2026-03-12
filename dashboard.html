@@ -1,0 +1,303 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Owner Dashboard — Atul Cable Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0b2d6b;--blue:#1a50bd;--blue2:#2563eb;--sky:#e8f0fe;
+  --accent:#f59e0b;--g1:#f1f5f9;--g2:#e2e8f0;--g3:#94a3b8;--g4:#475569;--g5:#1e293b;
+  --green:#16a34a;--green-l:#dcfce7;--red:#dc2626;--red-l:#fee2e2;
+  --r:14px;--sh:0 4px 24px rgba(11,45,107,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans',sans-serif;background:#f0f4ff;color:var(--g5);min-height:100vh;}
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy),var(--blue));padding:20px;}
+.login-box{background:#fff;border-radius:20px;padding:44px 36px;width:100%;max-width:370px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.28);}
+.login-ico{font-size:52px;margin-bottom:14px;}
+.login-box h2{font-family:'Baloo 2',cursive;font-size:1.5rem;color:var(--navy);margin-bottom:4px;}
+.login-box p{color:var(--g3);font-size:.87rem;margin-bottom:26px;}
+.l-inp{width:100%;padding:13px 15px;border:2px solid var(--g2);border-radius:10px;font-size:1rem;font-family:'Noto Sans',sans-serif;outline:none;margin-bottom:13px;text-align:center;letter-spacing:3px;transition:.2s;}
+.l-inp:focus{border-color:var(--blue2);}
+.l-btn{width:100%;padding:13px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'Noto Sans',sans-serif;transition:.2s;}
+.l-btn:hover{background:var(--navy);}
+.l-err{color:var(--red);font-size:.84rem;margin-top:9px;display:none;}
+/* DASHBOARD */
+.dash{display:none;}
+.dash.on{display:block;}
+.dh{background:linear-gradient(135deg,var(--navy),var(--blue));padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(11,45,107,.25);}
+.dh-logo{font-family:'Baloo 2',cursive;font-weight:800;color:#fff;font-size:1.1rem;display:flex;align-items:center;gap:10px;}
+.dh-badge{background:var(--accent);color:var(--navy);padding:3px 10px;border-radius:6px;font-size:.76rem;font-weight:700;}
+.dh-right{display:flex;gap:8px;}
+.hd-btn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:600;transition:.2s;font-family:'Noto Sans',sans-serif;}
+.hd-btn:hover{background:rgba(255,255,255,.25);}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px;padding:22px 24px;max-width:1100px;margin:0 auto;}
+.sc{background:#fff;border-radius:var(--r);padding:18px;border:2px solid var(--sky);text-align:center;box-shadow:var(--sh);}
+.sc-n{font-family:'Baloo 2',cursive;font-size:1.9rem;font-weight:800;color:var(--blue);}
+.sc-l{font-size:.78rem;color:var(--g3);font-weight:600;margin-top:2px;}
+/* CONTENT */
+.content{max-width:1100px;margin:0 auto;padding:0 24px 44px;}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px;}
+.tb-title{font-family:'Baloo 2',cursive;font-size:1.25rem;font-weight:800;color:var(--navy);flex:1;}
+.tb-inp{padding:9px 13px;border:2px solid var(--g2);border-radius:9px;font-size:.87rem;font-family:'Noto Sans',sans-serif;outline:none;transition:.2s;}
+.tb-inp:focus{border-color:var(--blue2);}
+.tb-btn{padding:9px 15px;border-radius:9px;border:none;cursor:pointer;font-size:.84rem;font-weight:600;font-family:'Noto Sans',sans-serif;transition:.2s;}
+.tb-grn{background:var(--green-l);color:var(--green);}
+.tb-grn:hover{background:var(--green);color:#fff;}
+.tb-red{background:var(--red-l);color:var(--red);}
+.tb-red:hover{background:var(--red);color:#fff;}
+/* FILTER TABS */
+.ftabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;}
+.ft{padding:6px 15px;border-radius:20px;border:2px solid var(--g2);background:#fff;color:var(--g4);font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;font-family:'Noto Sans',sans-serif;}
+.ft:hover,.ft.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+/* ORDERS */
+.orders-list{display:flex;flex-direction:column;gap:15px;}
+.oc{background:#fff;border-radius:var(--r);border:2px solid var(--sky);overflow:hidden;box-shadow:var(--sh);}
+.oc.new-o{border-color:#fbbf24;}
+.oc.done-o{border-color:var(--green);opacity:.85;}
+.oh{padding:15px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;background:var(--g1);border-bottom:1px solid var(--g2);cursor:pointer;transition:.15s;}
+.oh:hover{background:var(--sky);}
+.oi{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.o-num{font-family:'Baloo 2',cursive;font-weight:800;color:var(--navy);font-size:.93rem;}
+.o-name{font-weight:700;font-size:.98rem;}
+.o-phone{color:var(--blue);font-weight:600;font-size:.88rem;}
+.o-date{color:var(--g3);font-size:.78rem;}
+.o-chc{background:var(--sky);color:var(--navy);padding:2px 10px;border-radius:6px;font-size:.76rem;font-weight:700;}
+.sbadge{padding:4px 11px;border-radius:20px;font-size:.76rem;font-weight:700;}
+.s-new{background:#fef3c7;color:#92400e;}
+.s-contacted{background:#dbeafe;color:var(--navy);}
+.s-connected{background:var(--green-l);color:var(--green);}
+.ob{padding:17px 18px;display:none;}
+.ob.open{display:block;}
+.det-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:14px;margin-bottom:15px;}
+.db{background:var(--g1);border-radius:10px;padding:13px 15px;}
+.db label{font-size:.73rem;color:var(--g3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px;}
+.db span{font-weight:600;color:var(--g5);font-size:.92rem;}
+.db a{color:var(--blue);text-decoration:none;font-weight:600;}
+.ch-sec h4{font-family:'Baloo 2',cursive;font-size:.98rem;color:var(--navy);margin-bottom:9px;}
+.ch-grp{margin-bottom:11px;}
+.ch-grp-lbl{font-size:.72rem;font-weight:700;color:var(--g3);text-transform:uppercase;margin-bottom:5px;}
+.ch-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.ct{background:var(--sky);color:var(--navy);padding:3px 10px;border-radius:18px;font-size:.78rem;font-weight:600;}
+.ct.lite-t{background:var(--green-l);color:#065f46;}
+.act-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px;padding-top:13px;border-top:1px solid var(--g2);}
+.ab{padding:8px 14px;border-radius:9px;border:none;cursor:pointer;font-size:.83rem;font-weight:700;font-family:'Noto Sans',sans-serif;transition:.2s;display:inline-flex;align-items:center;gap:5px;text-decoration:none;}
+.ab-call{background:var(--sky);color:var(--navy);}
+.ab-call:hover{background:var(--blue);color:#fff;}
+.ab-wa{background:var(--green-l);color:var(--green);}
+.ab-wa:hover{background:var(--green);color:#fff;}
+.ab-done{background:var(--green-l);color:var(--green);}
+.ab-done:hover{background:var(--green);color:#fff;}
+.ab-del{background:var(--red-l);color:var(--red);margin-left:auto;}
+.ab-del:hover{background:var(--red);color:#fff;}
+/* EMPTY */
+.empty-s{text-align:center;padding:60px 20px;background:#fff;border-radius:var(--r);border:2px dashed var(--sky);}
+.empty-s .ei{font-size:54px;margin-bottom:14px;}
+.empty-s h3{font-family:'Baloo 2',cursive;font-size:1.25rem;color:var(--navy);margin-bottom:7px;}
+/* LOADING */
+.loading{text-align:center;padding:50px;color:var(--g3);}
+.spinner{display:inline-block;width:30px;height:30px;border:3px solid var(--sky);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:10px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+/* TOAST */
+.toast{position:fixed;bottom:22px;right:18px;background:var(--navy);color:#fff;padding:11px 17px;border-radius:10px;font-weight:600;font-size:.85rem;z-index:999;transform:translateX(120%);transition:transform .3s;box-shadow:0 4px 20px rgba(0,0,0,.18);}
+.toast.show{transform:translateX(0);}
+@media(max-width:600px){.stats-grid{padding:14px;gap:10px;}.content{padding:0 14px 30px;}.dh{padding:0 14px;}}
+</style>
+</head>
+<body>
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="login-ico">🔐</div>
+    <h2>Owner Dashboard</h2>
+    <p>ATUL CABLE SERVICES — Private Access Only</p>
+    <input type="password" class="l-inp" id="passInp" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="l-btn" onclick="doLogin()">🔓 Login</button>
+    <div class="l-err" id="lErr">❌ Wrong password. Try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dash" id="dash">
+  <div class="dh">
+    <div class="dh-logo">📺 ATUL CABLE SERVICES <span class="dh-badge">OWNER DASHBOARD</span></div>
+    <div class="dh-right">
+      <button class="hd-btn" onclick="loadDash()">🔄 Refresh</button>
+      <button class="hd-btn" onclick="logout()">🔒 Logout</button>
+    </div>
+  </div>
+  <div class="stats-grid" id="statsGrid"><div class="loading" style="grid-column:1/-1"><div class="spinner"></div><br/>Loading...</div></div>
+  <div class="content">
+    <div class="toolbar">
+      <div class="tb-title">📋 Customer Requests</div>
+      <input type="text" class="tb-inp" id="srchOrders" placeholder="🔍 Search name or phone..." oninput="renderOrders()"/>
+      <button class="tb-btn tb-grn" onclick="exportCSV()">📥 Export CSV</button>
+      <button class="tb-btn tb-red" onclick="clearAll()">🗑️ Clear All</button>
+    </div>
+    <div class="ftabs">
+      <div class="ft on" onclick="setFilter('all',this)">All</div>
+      <div class="ft" onclick="setFilter('new',this)">🟡 New</div>
+      <div class="ft" onclick="setFilter('contacted',this)">🔵 Contacted</div>
+      <div class="ft" onclick="setFilter('connected',this)">🟢 Connected</div>
+    </div>
+    <div class="orders-list" id="ordersList"><div class="loading"><div class="spinner"></div><br/>Fetching orders...</div></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const PASS="atul@cable2024";
+const BIN_ID="685063af8960c979a597a32e",API_KEY="$2a$10$9lraNJlLwMQoSWplh0OJFO4HW4G7hN7HHqmv1E4fXi0gkAhJfHMam";
+const BIN_URL=`https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+let allOrders=[],activeFilter="all";
+
+async function fetchOrders(){
+  try{const r=await fetch(BIN_URL+"/latest",{headers:{"X-Master-Key":API_KEY}});
+    const d=await r.json();return d.record?.orders||[];}
+  catch(e){showToast("⚠️ Failed to load");return[];}
+}
+async function pushOrders(orders){
+  try{await fetch(BIN_URL,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},body:JSON.stringify({orders})});}
+  catch(e){showToast("⚠️ Save failed");}
+}
+
+function doLogin(){
+  if(document.getElementById("passInp").value===PASS){
+    document.getElementById("loginWrap").style.display="none";
+    document.getElementById("dash").classList.add("on");
+    loadDash();
+  }else{
+    document.getElementById("lErr").style.display="block";
+    document.getElementById("passInp").value="";
+  }
+}
+function logout(){
+  document.getElementById("loginWrap").style.display="flex";
+  document.getElementById("dash").classList.remove("on");
+  document.getElementById("passInp").value="";
+  document.getElementById("lErr").style.display="none";
+}
+
+async function loadDash(){
+  document.getElementById("statsGrid").innerHTML=`<div class="loading" style="grid-column:1/-1"><div class="spinner"></div><br/>Loading...</div>`;
+  document.getElementById("ordersList").innerHTML=`<div class="loading"><div class="spinner"></div><br/>Fetching from cloud...</div>`;
+  allOrders=await fetchOrders();
+  renderStats();renderOrders();
+}
+
+function renderStats(){
+  const t=allOrders.length,nw=allOrders.filter(o=>(o.status||'new')==='new').length,
+    ct=allOrders.filter(o=>o.status==='contacted').length,
+    cn=allOrders.filter(o=>o.status==='connected').length,
+    ch=allOrders.reduce((s,o)=>s+(o.channels||[]).length,0);
+  document.getElementById("statsGrid").innerHTML=`
+    <div class="sc"><div class="sc-n">${t}</div><div class="sc-l">Total Requests</div></div>
+    <div class="sc"><div class="sc-n" style="color:#92400e">${nw}</div><div class="sc-l">New / Pending</div></div>
+    <div class="sc"><div class="sc-n">${ct}</div><div class="sc-l">Contacted</div></div>
+    <div class="sc"><div class="sc-n" style="color:var(--green)">${cn}</div><div class="sc-l">Connected</div></div>
+    <div class="sc"><div class="sc-n">${ch}</div><div class="sc-l">Total Channels</div></div>`;
+}
+
+function setFilter(f,btn){activeFilter=f;document.querySelectorAll(".ft").forEach(t=>t.classList.remove("on"));btn.classList.add("on");renderOrders();}
+
+function renderOrders(){
+  let orders=[...allOrders];
+  const q=(document.getElementById("srchOrders").value||"").toLowerCase();
+  if(q)orders=orders.filter(o=>(o.name||"").toLowerCase().includes(q)||(o.phone||"").toLowerCase().includes(q)||(o.address||"").toLowerCase().includes(q));
+  if(activeFilter!=="all")orders=orders.filter(o=>(o.status||"new")===activeFilter);
+  const el=document.getElementById("ordersList");
+  if(!orders.length){
+    el.innerHTML=`<div class="empty-s"><div class="ei">📭</div><h3>No requests yet</h3><p style="color:var(--g3)">Customer orders will appear here once they submit on your website.</p></div>`;
+    return;
+  }
+  const sLabel={new:"🟡 New",contacted:"🔵 Contacted",connected:"🟢 Connected"};
+  const sCls={new:"s-new",contacted:"s-contacted",connected:"s-connected"};
+  el.innerHTML=orders.map(o=>{
+    const st=o.status||"new";
+    const dt=o.date?new Date(o.date).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):"N/A";
+    const plusCh=(o.channels||[]).filter(c=>c.pack==="plus");
+    const liteCh=(o.channels||[]).filter(c=>c.pack==="lite");
+    function chGrouped(items){const g={};items.forEach(c=>{if(!g[c.cat])g[c.cat]=[];g[c.cat].push(c.n);});return g;}
+    return `<div class="oc ${st==="new"?"new-o":""} ${st==="connected"?"done-o":""}">
+      <div class="oh" onclick="toggleOB(${o.id})">
+        <div class="oi">
+          <span class="o-num">#${String(o.id).slice(-5)}</span>
+          <span class="o-name">👤 ${o.name}</span>
+          <span class="o-phone">📞 ${o.phone}</span>
+          <span class="o-chc">📺 ${(o.channels||[]).length} ch</span>
+          <span class="o-date">🕐 ${dt}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="sbadge ${sCls[st]}">${sLabel[st]}</span>
+          <span style="color:var(--g3);font-size:17px">▾</span>
+        </div>
+      </div>
+      <div class="ob" id="ob-${o.id}">
+        <div class="det-grid">
+          <div class="db"><label>Name</label><span>${o.name}</span></div>
+          <div class="db"><label>Phone</label><span><a href="tel:${o.phone}">${o.phone}</a></span></div>
+          <div class="db"><label>Address</label><span>${o.address||"—"}</span></div>
+          <div class="db"><label>Date</label><span>${dt}</span></div>
+          <div class="db"><label>Status</label>
+            <select onchange="changeStatus(${o.id},this.value)" style="border:2px solid var(--g2);border-radius:8px;padding:5px 9px;font-family:'Noto Sans',sans-serif;font-size:.88rem;outline:none;cursor:pointer;width:100%;">
+              <option value="new" ${st==="new"?"selected":""}>🟡 New</option>
+              <option value="contacted" ${st==="contacted"?"selected":""}>🔵 Contacted</option>
+              <option value="connected" ${st==="connected"?"selected":""}>🟢 Connected</option>
+            </select>
+          </div>
+        </div>
+        <div class="ch-sec">
+          <h4>📺 Requested Channels (${(o.channels||[]).length} total)</h4>
+          ${plusCh.length?`<div style="margin-bottom:12px"><div style="background:linear-gradient(90deg,#0b2d6b,#1a50bd);border-radius:8px;padding:7px 12px;color:#fff;font-weight:700;font-size:.82rem;margin-bottom:8px">🌟 Power+ Pack — ${plusCh.length} channels</div>
+            ${Object.entries(chGrouped(plusCh)).map(([cat,chs])=>`<div class="ch-grp"><div class="ch-grp-lbl">${cat}</div><div class="ch-tags">${chs.map(n=>`<span class="ct">${n}</span>`).join('')}</div></div>`).join('')}
+          </div>`:''}
+          ${liteCh.length?`<div style="margin-bottom:12px"><div style="background:linear-gradient(90deg,#0f5132,#198754);border-radius:8px;padding:7px 12px;color:#fff;font-weight:700;font-size:.82rem;margin-bottom:8px">🟢 Lite Pack — ${liteCh.length} channels</div>
+            ${Object.entries(chGrouped(liteCh)).map(([cat,chs])=>`<div class="ch-grp"><div class="ch-grp-lbl">${cat}</div><div class="ch-tags">${chs.map(n=>`<span class="ct lite-t">${n}</span>`).join('')}</div></div>`).join('')}
+          </div>`:''}
+        </div>
+        <div class="act-row">
+          <a href="tel:${o.phone}" class="ab ab-call">📞 Call</a>
+          <a href="https://wa.me/${(o.phone||'').replace(/\D/g,'')}" target="_blank" class="ab ab-wa">💬 WhatsApp</a>
+          <button class="ab ab-done" onclick="changeStatus(${o.id},'connected')">✅ Mark Connected</button>
+          <button class="ab ab-del" onclick="deleteOrder(${o.id})">🗑️ Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleOB(id){document.getElementById("ob-"+id).classList.toggle("open");}
+async function changeStatus(id,st){
+  const idx=allOrders.findIndex(o=>o.id===id);
+  if(idx>-1){allOrders[idx].status=st;await pushOrders(allOrders);renderStats();renderOrders();showToast("✅ Status updated!");}
+}
+async function deleteOrder(id){
+  if(!confirm("Delete this order?"))return;
+  allOrders=allOrders.filter(o=>o.id!==id);
+  await pushOrders(allOrders);renderStats();renderOrders();showToast("Deleted.");
+}
+async function clearAll(){
+  if(!confirm("Delete ALL orders? Cannot be undone!"))return;
+  allOrders=[];await pushOrders([]);renderStats();renderOrders();showToast("All cleared.");
+}
+function exportCSV(){
+  if(!allOrders.length){showToast("No orders to export.");return;}
+  const rows=[["ID","Name","Phone","Address","Date","Status","Pack","Channels"]];
+  allOrders.forEach(o=>{
+    const pch=(o.channels||[]).filter(c=>c.pack==="plus").map(c=>c.n).join("; ");
+    const lch=(o.channels||[]).filter(c=>c.pack==="lite").map(c=>c.n).join("; ");
+    rows.push([o.id,o.name,o.phone,o.address||"",o.date?new Date(o.date).toLocaleString('en-IN'):"",o.status||"new",pch?"Power+":"Lite",(pch||lch)]);
+  });
+  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`atul_cable_orders_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+  showToast("📥 CSV exported!");
+}
+function showToast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500);}
+</script>
+</body>
+</html>
