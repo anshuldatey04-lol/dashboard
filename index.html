@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -237,14 +238,21 @@ function renderOrders(){
     const dt=o.date?new Date(o.date).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):"N/A";
     const plusCh=(o.channels||[]).filter(c=>c.pack==="plus");
     const liteCh=(o.channels||[]).filter(c=>c.pack==="lite");
+    const hdCh=(o.channels||[]).filter(c=>c.pack==="hd");
     function chGrouped(items){const g={};items.forEach(c=>{if(!g[c.cat])g[c.cat]=[];g[c.cat].push(c.n);});return g;}
+    // Pack badges for header
+    const packBadges=`
+      ${plusCh.length?`<span style="background:#e8f0fe;color:#0b2d6b;padding:2px 9px;border-radius:6px;font-size:.72rem;font-weight:700;">🌟 Power+ (${plusCh.length})</span>`:''}
+      ${liteCh.length?`<span style="background:#d1fae5;color:#065f46;padding:2px 9px;border-radius:6px;font-size:.72rem;font-weight:700;">🟢 Lite (${liteCh.length})</span>`:''}
+      ${hdCh.length?`<span style="background:#ede9fe;color:#4a0080;padding:2px 9px;border-radius:6px;font-size:.72rem;font-weight:700;">💎 HD (${hdCh.length})</span>`:''}
+    `;
     return `<div class="oc ${st==="new"?"new-o":""} ${st==="connected"?"done-o":""}">
       <div class="oh" onclick="toggleOB(${o.id})">
         <div class="oi">
           <span class="o-num">#${String(o.id).slice(-5)}</span>
           <span class="o-name">👤 ${o.name}</span>
           <span class="o-phone">📞 ${o.phone}</span>
-          <span class="o-chc">📺 ${(o.channels||[]).length} ch</span>
+          ${packBadges}
           <span class="o-date">🕐 ${dt}</span>
         </div>
         <div style="display:flex;align-items:center;gap:8px">
@@ -273,6 +281,9 @@ function renderOrders(){
           </div>`:''}
           ${liteCh.length?`<div style="margin-bottom:12px"><div style="background:linear-gradient(90deg,#0f5132,#198754);border-radius:8px;padding:7px 12px;color:#fff;font-weight:700;font-size:.82rem;margin-bottom:8px">🟢 Lite Pack — ${liteCh.length} channels</div>
             ${Object.entries(chGrouped(liteCh)).map(([cat,chs])=>`<div class="ch-grp"><div class="ch-grp-lbl">${cat}</div><div class="ch-tags">${chs.map(n=>`<span class="ct lite-t">${n}</span>`).join('')}</div></div>`).join('')}
+          </div>`:''}
+          ${hdCh.length?`<div style="margin-bottom:12px"><div style="background:linear-gradient(90deg,#1a1a2e,#4a0080);border-radius:8px;padding:7px 12px;color:#fff;font-weight:700;font-size:.82rem;margin-bottom:8px">💎 HD Pack — ${hdCh.length} channels</div>
+            ${Object.entries(chGrouped(hdCh)).map(([cat,chs])=>`<div class="ch-grp"><div class="ch-grp-lbl">${cat}</div><div class="ch-tags">${chs.map(n=>`<span class="ct" style="background:#ede9fe;color:#4a0080">${n}</span>`).join('')}</div></div>`).join('')}
           </div>`:''}
         </div>
         <div class="act-row">
