@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -156,13 +157,29 @@ const BIN_URL=`https://api.jsonbin.io/v3/b/${BIN_ID}`;
 let allOrders=[],activeFilter="all";
 
 async function fetchOrders(){
-  try{const r=await fetch(BIN_URL+"/latest",{headers:{"X-Master-Key":API_KEY}});
-    const d=await r.json();return d.record?.orders||[];}
-  catch(e){showToast("⚠️ Failed to load");return[];}
+  try{
+    const r=await fetch(BIN_URL+"/latest",{
+      headers:{"X-Master-Key":API_KEY,"X-Bin-Meta":false}
+    });
+    if(!r.ok){showToast("⚠️ Error "+r.status+" loading orders");return[];}
+    const d=await r.json();
+    // Handle both {orders:[]} and direct array formats
+    if(Array.isArray(d)) return d;
+    if(Array.isArray(d.orders)) return d.orders;
+    if(Array.isArray(d.record?.orders)) return d.record.orders;
+    if(Array.isArray(d.record)) return d.record;
+    return [];
+  }catch(e){showToast("⚠️ Failed to load: "+e.message);return[];}
 }
 async function pushOrders(orders){
-  try{await fetch(BIN_URL,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},body:JSON.stringify({orders})});}
-  catch(e){showToast("⚠️ Save failed");}
+  try{
+    const r=await fetch(BIN_URL,{
+      method:"PUT",
+      headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},
+      body:JSON.stringify({orders})
+    });
+    if(!r.ok)showToast("⚠️ Save error "+r.status);
+  }catch(e){showToast("⚠️ Save failed");}
 }
 
 function doLogin(){
